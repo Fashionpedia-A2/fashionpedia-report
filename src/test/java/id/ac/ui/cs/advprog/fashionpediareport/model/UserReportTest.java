@@ -3,6 +3,8 @@ package id.ac.ui.cs.advprog.fashionpediareport.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import id.ac.ui.cs.advprog.fashionpediareport.enums.ReportStatus;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
@@ -15,7 +17,7 @@ public class UserReportTest {
         report = new UserReport(null, null);
         report.setReportedUsername("loremipsum123");
         report.setAlasan("User penipu");
-        report.setStatus("PENDING");
+        report.setStatus(ReportStatus.PENDING.getValue());
         report.setDate(LocalDate.now());
     }
 
@@ -27,8 +29,19 @@ public class UserReportTest {
         assertNotNull(report.getDate());
         assertEquals("loremipsum123", report.getReportedUsername());
         assertEquals("User penipu", report.getAlasan());
-        assertEquals("PENDING", report.status);
+        assertEquals(ReportStatus.PENDING.getValue(), report.status);
         assertEquals(LocalDate.now(), report.getDate());
+    }
+
+    @Test
+    public void testSetReportStatus(){
+        // test set report status to APPROVED
+        report.setStatus(ReportStatus.APPROVED.getValue());
+        assertEquals(ReportStatus.APPROVED.getValue(), report.getStatus());
+
+        // test set report status to REJECTED
+        report.setStatus(ReportStatus.REJECTED.getValue());
+        assertEquals(ReportStatus.REJECTED.getValue(), report.getStatus());
     }
 
 }
