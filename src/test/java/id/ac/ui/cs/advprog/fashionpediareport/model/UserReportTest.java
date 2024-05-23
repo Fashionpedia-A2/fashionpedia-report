@@ -14,22 +14,19 @@ public class UserReportTest {
 
     @BeforeEach
     void setUp(){
-        report = new UserReport(null, null);
-        report.setReportedUsername("loremipsum123");
-        report.setAlasan("User penipu");
-        report.setStatus(ReportStatus.PENDING);
-        report.setDate(LocalDate.now());
+        report = new UserReport("loremipsum123", "reportedUser123", "User penipu");
     }
 
     @Test
     public void testGetter(){
         assertNotNull(report);
-        assertNotNull(report.id);
+        assertNotNull(report.getId());
         assertNotNull(report.getAlasan());
         assertNotNull(report.getDate());
-        assertEquals("loremipsum123", report.getReportedUsername());
+        assertEquals("loremipsum123", report.getUserId());
+        assertEquals("reportedUser123", report.getReportedUserId());
         assertEquals("User penipu", report.getAlasan());
-        assertEquals(ReportStatus.PENDING, report.status);
+        assertEquals(ReportStatus.PENDING, report.getStatus());
         assertEquals(LocalDate.now(), report.getDate());
     }
 
@@ -44,4 +41,15 @@ public class UserReportTest {
         assertEquals(ReportStatus.REJECTED, report.getStatus());
     }
 
+    @Test
+    public void testApprove(){
+        report.approve();
+        assertEquals(ReportStatus.APPROVED, report.getStatus());
+    }
+
+    @Test
+    public void testReject(){
+        report.reject();
+        assertEquals(ReportStatus.REJECTED, report.getStatus());
+    }
 }

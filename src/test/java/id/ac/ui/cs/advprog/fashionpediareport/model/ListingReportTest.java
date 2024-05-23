@@ -14,22 +14,19 @@ public class ListingReportTest {
 
     @BeforeEach
     void setUp(){
-        report = new ListingReport(null, null);
-        report.setReportedListingId("3cf20657-5575-442e-b102-a96021a3112b");
-        report.setAlasan("Barangnya Palsu!");
-        report.setStatus(ReportStatus.PENDING);
-        report.setDate(LocalDate.now());
+        report = new ListingReport("loremipsum123", "reportedListing123", "Barangnya Palsu!");
     }
 
     @Test
     public void testGetter(){
         assertNotNull(report);
-        assertNotNull(report.id);
+        assertNotNull(report.getId());
         assertNotNull(report.getAlasan());
         assertNotNull(report.getDate());
-        assertEquals("3cf20657-5575-442e-b102-a96021a3112b", report.getReportedListingId());
+        assertEquals("loremipsum123", report.getUserId());
+        assertEquals("reportedListing123", report.getReportedListingId());
         assertEquals("Barangnya Palsu!", report.getAlasan());
-        assertEquals(ReportStatus.PENDING, report.status);
+        assertEquals(ReportStatus.PENDING, report.getStatus());
         assertEquals(LocalDate.now(), report.getDate());
     }
 
@@ -44,4 +41,15 @@ public class ListingReportTest {
         assertEquals(ReportStatus.REJECTED, report.getStatus());
     }
 
+    @Test
+    public void testApprove(){
+        report.approve();
+        assertEquals(ReportStatus.APPROVED, report.getStatus());
+    }
+
+    @Test
+    public void testReject(){
+        report.reject();
+        assertEquals(ReportStatus.REJECTED, report.getStatus());
+    }
 }
