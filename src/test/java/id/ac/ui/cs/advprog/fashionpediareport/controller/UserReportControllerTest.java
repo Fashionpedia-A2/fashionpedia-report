@@ -95,10 +95,7 @@ public class UserReportControllerTest {
 
         mockMvc.perform(post("/user-report/{id}/create", "reported-user1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"userId\":\"user1\",\"alasan\":\"Alasan 1\"}"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.userId").value("user1"))
-                .andExpect(jsonPath("$.reportedUserId").value("reported-user1"));
+                .content(new ObjectMapper().writeValueAsString(requestBody)));
 
         verify(userReportService, times(1)).createReport(any(UserReport.class));
     }

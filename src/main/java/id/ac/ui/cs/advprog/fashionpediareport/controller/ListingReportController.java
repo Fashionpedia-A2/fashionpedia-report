@@ -49,12 +49,12 @@ public class ListingReportController {
 
     @Async
     @PostMapping("/{id}/create")
-    public ResponseEntity<ListingReport> createReport( @PathVariable String id, @RequestBody Map<String, Object> requestBody ){
+    public CompletableFuture<ResponseEntity<ListingReport>> createReport( @PathVariable String id, @RequestBody Map<String, Object> requestBody ){
         String userId = requestBody.get("userId").toString();
         String alasan = requestBody.get("alasan").toString();
         ListingReport report = new ListingReport(userId, id, alasan);
         ListingReport buatReport = service.createReport(report);
-        return ResponseEntity.ok(buatReport);
+        return CompletableFuture.completedFuture(ResponseEntity.ok(buatReport));
     }
 
     @Async

@@ -49,12 +49,12 @@ public class UserReportController {
 
     @Async
     @PostMapping("/{id}/create")
-    public ResponseEntity<UserReport> createReport( @PathVariable String id, @RequestBody Map<String, Object> requestBody ){
+    public CompletableFuture<ResponseEntity<UserReport>> createReport( @PathVariable String id, @RequestBody Map<String, Object> requestBody ){
         String userId = requestBody.get("userId").toString();
         String alasan = requestBody.get("alasan").toString();
         UserReport report = new UserReport(userId, id, alasan);
         UserReport buatReport = service.createReport(report);
-        return ResponseEntity.ok(buatReport);
+        return CompletableFuture.completedFuture(ResponseEntity.ok(buatReport));
     }
 
     @Async
