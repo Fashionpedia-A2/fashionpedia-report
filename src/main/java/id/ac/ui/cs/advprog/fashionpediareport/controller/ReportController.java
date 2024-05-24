@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ReportController {
     @GetMapping("/")
-    public String review(){
+    public String report(){
         return "Hello World!";
     }
 }
