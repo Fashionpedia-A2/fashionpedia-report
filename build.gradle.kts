@@ -25,7 +25,6 @@ repositories {
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
@@ -42,9 +41,9 @@ tasks.withType<Test> {
 }
 
 tasks.test {
-	// useJUnitPlatform()
-	// finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
-	enabled = false
+	 useJUnitPlatform()
+	 finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+//	enabled = false
 }
 tasks.jacocoTestReport {
 	classDirectories.setFrom(files(classDirectories.files.map {
@@ -52,8 +51,8 @@ tasks.jacocoTestReport {
 	}))
 	dependsOn(tasks.test) // tests are required to run before generating the report
 	reports {
-		xml.required.set(false)
-		csv.required.set(false)
+		xml.required.set(true)
+		csv.required.set(true)
 		html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
 	}
 }
