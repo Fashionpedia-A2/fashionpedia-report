@@ -46,7 +46,7 @@ public class ListingReport{
     @JsonIgnore
     ListingReportState state;
     
-    public ListingReport(String userId, String reportedListingId, String alasan) {
+    public ListingReport(String userId, String reportedListingId, String alasan){
         this.userId = userId;
         this.id = UUID.randomUUID().toString();
         this.reportedListingId = reportedListingId;
