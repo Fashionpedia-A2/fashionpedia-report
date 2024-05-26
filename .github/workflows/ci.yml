@@ -43,16 +43,17 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           distribution: "temurin"
           java-version: "21"
           cache: "gradle"
-      - name: Verify Java Version
-        run: java -version
+
       - name: Make gradlew executable
         run: chmod +x ./gradlew
+        
       - name: Cache Gradle dependencies
         uses: actions/cache@v4
         with:
@@ -66,7 +67,10 @@ jobs:
           JDBC_DATABASE_PASSWORD: ${{ secrets.JDBC_DATABASE_PASSWORD }}
           JDBC_DATABASE_URL: ${{ secrets.JDBC_DATABASE_URL }}
           JDBC_DATABASE_USERNAME: ${{ secrets.JDBC_DATABASE_USERNAME }}
-        run: ./gradlew check --info --stacktrace
+        run: |
+          ./gradlew check --info --stacktrace
+          ./gradlew test --scan
+          ./gradlew jacocoTestReport
 
   publish:
     name: Publish Docker Image
