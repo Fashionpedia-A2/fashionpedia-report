@@ -3,7 +3,9 @@ package id.ac.ui.cs.advprog.fashionpediareport.model;
 import jakarta.persistence.*;
 import id.ac.ui.cs.advprog.fashionpediareport.enums.ReportStatus;
 import id.ac.ui.cs.advprog.fashionpediareport.status.UserReportState;
+import id.ac.ui.cs.advprog.fashionpediareport.status.UserApprovedState;
 import id.ac.ui.cs.advprog.fashionpediareport.status.UserPendingState;
+import id.ac.ui.cs.advprog.fashionpediareport.status.UserRejectedState;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -36,6 +38,10 @@ public class UserReport{
     @Column(nullable = false)
     LocalDate date;
 
+    @JsonIgnore
+    @Column(name="state", nullable = false)
+    private String stateStr;
+
     @Transient
     @JsonIgnore
     UserReportState state;
@@ -48,6 +54,7 @@ public class UserReport{
         this.status = ReportStatus.PENDING;
         this.date = LocalDate.now();
         this.state = new UserPendingState();
+        this.stateStr = ReportStatus.PENDING.toString();
     }
 
     public UserReport() {
@@ -56,9 +63,26 @@ public class UserReport{
 
     public void approve(){
         state.approve(this);
+        this.stateStr = "APPROVED";
     }
 
     public void reject(){
         state.reject(this);
+        this.stateStr = "REJECTED";
+    }
+
+    @PostLoad
+    public void postLoad() {
+        switch (stateStr) {
+            case "APPROVED":
+                this.state = new UserApprovedState();
+                break;
+            case "REJECTED":
+                this.state = new UserRejectedState();
+                break;
+            default:
+                this.state = new UserPendingState();
+                break;
+        }
     }
 }
